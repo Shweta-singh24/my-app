@@ -1,15 +1,12 @@
 import React, { createContext, useContext, useEffect, useReducer, useState } from "react";
 import { BrowserRouter, Routes, Route, Link, useParams, useNavigate } from "react-router-dom";
-import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
-
-// ========= Types ko simple rakha =========
-// Ab sirf objects ke structure loosely define kiye gaye hain
+import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd"
 
 function uuid() {
   return Math.random().toString(36).substr(2, 9);
 }
 
-// ========= Initial Sample =========
+
 function makeDefaultBoard() {
   const t1 = {
     id: uuid(),
@@ -48,7 +45,7 @@ function saveState(state) {
   } catch {}
 }
 
-// ========= Reducer =========
+// Reducer 
 function reducer(state, action) {
   const next = JSON.parse(JSON.stringify(state));
   const findBoard = (id) => next.boards.find(b => b.id === id);
@@ -120,11 +117,11 @@ function reducer(state, action) {
   }
 }
 
-// ========= Context =========
+// Context 
 const AppCtx = createContext(null);
 const useApp = () => useContext(AppCtx);
 
-// ========= UI Helpers =========
+// UI Helpers
 const IconBtn = (props) => (
   <button className="px-2 py-1 rounded-xl border shadow-sm text-sm hover:shadow" {...props} />
 );
@@ -133,7 +130,7 @@ const TextInput = (props) => (
   <input {...props} className={`w-full rounded-xl border p-2 shadow-sm ${props.className || ""}`} />
 );
 
-// ========= App Shell =========
+// App Shell 
 const Shell = ({ children }) => (
   <div className="min-h-screen bg-gray-50 text-gray-900">
     <header className="sticky top-0 border-b bg-white shadow-sm">
@@ -145,7 +142,7 @@ const Shell = ({ children }) => (
   </div>
 );
 
-// ========= Boards List =========
+// Boards List
 const BoardsList = () => {
   const { state, dispatch } = useApp();
   const [name, setName] = useState("");
@@ -172,7 +169,7 @@ const BoardsList = () => {
   );
 };
 
-// ========= Board View =========
+//Board View
 const BoardView = () => {
   const { boardId } = useParams();
   const { state, dispatch } = useApp();
@@ -238,7 +235,7 @@ const BoardView = () => {
   );
 };
 
-// ========= Root App =========
+// Root App 
 const Provider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, undefined, () => loadState() || { boards: [makeDefaultBoard()] });
   useEffect(() => saveState(state), [state]);
